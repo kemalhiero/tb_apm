@@ -16,18 +16,14 @@ def plotToWords(raw_plot):
 
 def preprocess(filename):
     train = pd.read_csv(filename)
-    # counts = train.Genre1.value_counts()
-    # counts.plot(kind='bar')
-    # plt.show()
-    # print counts
 
     num_reviews = train["Plot"].size
     clean_train_reviews = []
 
     for i in range(0, num_reviews):
         if ((i + 1) % 100 == 0):
-            print "Review %d of %d\n" % (i + 1, num_reviews)
-        clean_train_reviews.append(plotToWords(train["Plot"][i]))
+            print ("Review %d of %d\n") % (i + 1, num_reviews)
+        clean_train_reviews.append(plotToWords(train["Description"][i]))
 
     tagVector = getTags('Comedy', train)
     data = {'plot': clean_train_reviews, 'tags': tagVector}
