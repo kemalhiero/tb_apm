@@ -12,6 +12,9 @@ model = pickle.load(open(filename, "rb"))
 # Load vectorizer from file
 vectorizer = pickle.load(open('pickle/vectorizer.sav', 'rb'))
 
+# Transformer label
+genre = pickle.load(open('pickle/genre.sav', 'rb'))
+
 # preprocessing
 def preprocess(data):
     # Lowercase all text
@@ -37,6 +40,8 @@ def predict_class(new_data):
 # Create a Streamlit app
 def main():
     st.title('Movie genre classifier')
+
+    st.write(genre)
     
     # Create input field for plot
     plot = st.text_area('Enter the plot of the film:' )
@@ -45,6 +50,9 @@ def main():
     if st.button('Submit'):
         user_input = preprocess(plot)
         pred = predict_class([user_input])
+        # pred = transformer.inverse_transform(pred)
+        # gnr = genre[0] = pred[0]
+        # st.write({genre[1][1]})
         st.write(f'The predicted genre is {pred[0]}')
 
 
