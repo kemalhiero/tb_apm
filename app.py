@@ -12,12 +12,7 @@ model = pickle.load(open(filename, "rb"))
 # Load vectorizer from file
 vectorizer = pickle.load(open('pickle/vectorizer.sav', 'rb'))
 
-# Create a function to predict the class of new data points
-def predict_class(new_data):
-    new_data = vectorizer.transform(new_data)
-    pred = model.predict(new_data)
-    return pred
-
+# preprocessing
 def preprocess(data):
     # Lowercase all text
     data = data.lower()
@@ -31,9 +26,17 @@ def preprocess(data):
 
     return data
 
+
+# Create a function to predict the class of new data points
+def predict_class(new_data):
+    new_data = vectorizer.transform(new_data)
+    pred = model.predict(new_data)
+    return pred
+
+
 # Create a Streamlit app
 def main():
-    st.title('Klasifikasi film berdasarkan genre')
+    st.title('Movie genre classifier')
     
     # Create input field for plot
     plot = st.text_area('Enter the plot of the film:' )
