@@ -36,12 +36,22 @@ def predict_class(new_data):
     pred = model.predict(new_data)
     return pred
 
+def cari_genre(target_value):
+
+    # Iterasi melalui setiap baris dalam kolom yang diberikan
+    for value in genre['no']:
+        # Cek apakah nilai pada baris saat ini sama dengan nilai target
+        if value == target_value:
+            result = genre.loc[genre['no'] == value]
+            return result['genre'].values[0]
+
+
 
 # Create a Streamlit app
 def main():
     st.title('Movie genre classifier')
 
-    st.write(genre)
+    # st.write(genre)
     
     # Create input field for plot
     plot = st.text_area('Enter the plot of the film:' )
@@ -50,10 +60,9 @@ def main():
     if st.button('Submit'):
         user_input = preprocess(plot)
         pred = predict_class([user_input])
-        # pred = transformer.inverse_transform(pred)
-        # gnr = genre[0] = pred[0]
-        # st.write({genre[1][1]})
-        st.write(f'The predicted genre is {pred[0]}')
+
+        tampil = cari_genre(pred[0])
+        st.write(f'The predicted genre is {tampil}')
 
 
 if __name__ == '__main__':
