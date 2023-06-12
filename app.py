@@ -1,4 +1,3 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
 import streamlit as st
 import re
 from nltk.corpus import stopwords
