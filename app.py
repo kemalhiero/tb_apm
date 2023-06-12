@@ -3,6 +3,7 @@ import streamlit as st
 import re
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+from langdetect import detect
 import pickle
 
 # Load model from file
@@ -46,7 +47,6 @@ def cari_genre(target_value):
             return result['genre'].values[0]
 
 
-
 # Create a Streamlit app
 def main():
     st.title('Movie genre classifier')
@@ -54,15 +54,27 @@ def main():
     # st.write(genre)
     
     # Create input field for plot
-    plot = st.text_area('Enter the plot of the film:' )
+    plot = st.text_area('Enter the plot of the film (In english only):' )
 
     # Predict the genre of the film
     if st.button('Submit'):
-        user_input = preprocess(plot)
-        pred = predict_class([user_input])
 
-        tampil = cari_genre(pred[0])
-        st.write(f'The predicted genre is {tampil}')
+        if len(plot) >= 40:
+            if detect(plot) != 'en':
+                st.write(f'Please use English!1!1!')
+                
+            else:
+                user_input = preprocess(plot)
+                pred = predict_class([user_input])
+                tampil = cari_genre(pred[0])
+                st.write(f'The predicted genre is {tampil}')
+
+        elif len(plot) < 40 and len(plot) > 0:
+            st.write(f'Enter the film plot more fully!!')
+
+        elif len(plot) <= 0:
+            st.write(f'Enter the movie plot!!')
+
 
 
 if __name__ == '__main__':
